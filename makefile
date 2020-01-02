@@ -6,11 +6,13 @@ CFLAGS = -Wall -Wextra
 
 NAME = test.out
 
+TESTC = 2
+
 ${NAME}: ${OBJS}
 	gcc ${OBJS} -o ${NAME}
 
 autorun: fclean ${NAME}
-	./${NAME} 5
+	./${NAME} ${TESTC}
 
 all: ${name}
 
