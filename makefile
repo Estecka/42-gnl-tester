@@ -1,4 +1,4 @@
-SRCS = $(wildcard *.c) ../get_next_line.c ../get_next_line_utils.c
+SRCS = $(wildcard *.c ../*.c)
 OBJS = ${SRCS:.c=.o}
 
 CC = gcc
@@ -7,8 +7,10 @@ CFLAGS = -Wall -Wextra
 NAME = test.out
 
 ${NAME}: ${OBJS}
+	gcc ${OBJS} -o ${NAME}
 
-autorun: ${NAME}
+autorun: fclean ${NAME}
+	./${NAME} 5
 
 all: ${name}
 
