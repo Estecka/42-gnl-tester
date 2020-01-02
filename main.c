@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2019/12/30 15:42:35 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/02 15:12:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void TestOneGNL(){
 	char* line = NULL;
 	int r;
 
-	r = get_next_line(0, line);
+	r = get_next_line(0, &line);
 
 	if (r == 1)
 		printf("%s\n", line);
