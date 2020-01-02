@@ -1,4 +1,4 @@
-SRCS = $(wildcard *.c ../*.c)
+SRCS = $(wildcard *.c ../*.c */*.c)
 OBJS = ${SRCS:.c=.o}
 
 CC = gcc

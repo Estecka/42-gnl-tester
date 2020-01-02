@@ -6,12 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/02 15:12:16 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/02 16:23:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "logutil/logutil.h"
 int	get_next_line(int, char**);
 
 void TestOneGNL(){
@@ -20,8 +21,15 @@ void TestOneGNL(){
 
 	r = get_next_line(0, &line);
 
-	if (r == 1)
+	if (r == 1) {
 		printf("%s\n", line);
+		for (line; *line; line++){
+			if (*line == '\n' || *line == EOF || *line == 0)
+				printfc(YELLOW, 1, "%02X ", *line);
+			else
+				printf ("%02X ", *line);
+		}
+	}
 	else
 		printf("Unexpected return value: %d\n", r);
 }
