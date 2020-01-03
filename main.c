@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/02 16:23:46 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/03 11:00:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void TestOneGNL(){
 			else
 				printf ("%02X ", *line);
 		}
+		printf("\n");
 	}
 	else
 		printf("Unexpected return value: %d\n", r);
