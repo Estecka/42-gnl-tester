@@ -17,8 +17,8 @@ autorun: fclean ${NAME}
 all: ${name}
 
 clean:
-	rm -f *.o ../*.o
-	rm -f *.gch ../*.gch
+	rm -f *.o ../*.o */*.o
+	rm -f *.gch ../*.gch */*.gch
 
 fclean: clean
 	rm -f ${name}

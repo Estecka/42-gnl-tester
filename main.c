@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/03 11:47:41 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/03 14:05:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,43 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <strings.h>
 
 #include "logutil/logutil.h"
 int	get_next_line(int, char**);
+
+#define COLCOUNT 64
+
+/*
+* Returns false if a NULL character was encountered.
+*/
+static short printline_row(const char* line, short isEOF){
+	char lastChar = 0;
+
+	for(int i=0; i<COLCOUNT; i++){
+		if (line[i]){
+			lastChar = line[i];
+			if (line[i] != '\n')
+				printf("%c", line[i]);
+			else
+				printfc(RED, 1, "$");
+		} else {
+			printf("%-*c", COLCOUNT-i, ' ');
+			break;
+		}
+	}
+
+	for (int i=0; i<COLCOUNT; i++){
+		if (line[i])
+			printfc(line[i]=='\n' ? RED : CLEAR, 0, "%.*c%02X", i>0, ' ', line[i]);
+		else {
+			printf("%-*c", COLCOUNT-i, ' ');
+			return 0;
+		}
+	}
+
+	return 1;
+}
 
 int TestOneGNL(int fd){
 	char* line = NULL;
@@ -24,18 +58,12 @@ int TestOneGNL(int fd){
 
 	err = get_next_line(fd, &line);
 
-	if (-1 < err) {
-		printf("%s\n", line);
-		for (line; *line; line++){
-			if (*line == '\n' || *line == EOF || *line == 0)
-				printfc(CYAN, 1, "%02X ", *line);
-			else
-				printf ("%02X ", *line);
-		}
-		printf("\n");
-	}
+	if (-1 < err)
+		while (printline_row(line, err == 0))
+			line += COLCOUNT;
 	else
-		printf("Unexpected return value: %d\n", err);
+		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
+	printf("\n");
 
 	return err;
 }
@@ -46,8 +74,8 @@ int	main(int argc, char **args){
 	if (argc > 1)
 		fd = open(args[1], O_RDONLY);
 	if (fd < 0){
-		printfc(YELLOW, 1, "Error opening file: %#x", errno);
-		return -1;
+		printfc(YELLOW, 1, "Error opening file: %#x\n", errno);
+		return errno;
 	}
 
 	while(0 < TestOneGNL(fd));
