@@ -6,13 +6,13 @@ CFLAGS = -Wall -Wextra
 
 NAME = test.out
 
-TESTC = 2
+TESTARGS = "samples/Mili - Colorful [Original artist H△G].srt"
 
 ${NAME}: ${OBJS}
 	gcc ${OBJS} -o ${NAME}
 
 autorun: fclean ${NAME}
-	./${NAME} ${TESTC}
+	./${NAME} ${TESTARGS}
 
 all: ${name}
 
