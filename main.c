@@ -22,11 +22,17 @@ int	get_next_line(int, char**);
 #define COLCOUNT 42
 
 /*
-* Returns false if a NULL character was encountered.
+* Returns false if the end of line was reached.
 */
 static short printline_row(const char* line, short isEOF){
 	char lastChar = 0;
 	(void)isEOF;
+
+	if (!line){
+		printfc(RED, 1, "%-*.*s", COLCOUNT, COLCOUNT, NULL);
+		printf("\n");
+		return 0;
+	}
 
 	for(int i=0; i<COLCOUNT; i++){
 		if (line[i]){
