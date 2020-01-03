@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/03 15:15:09 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/03 16:29:56 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <strings.h>
 #include <ctype.h>
 
 #include "logutil/logutil.h"
