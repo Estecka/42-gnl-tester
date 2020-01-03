@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/03 14:05:22 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/03 15:15:09 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,29 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <strings.h>
+#include <ctype.h>
 
 #include "logutil/logutil.h"
 int	get_next_line(int, char**);
 
-#define COLCOUNT 64
+#define COLCOUNT 42
 
 /*
 * Returns false if a NULL character was encountered.
 */
 static short printline_row(const char* line, short isEOF){
 	char lastChar = 0;
+	(void)isEOF;
 
 	for(int i=0; i<COLCOUNT; i++){
 		if (line[i]){
 			lastChar = line[i];
-			if (line[i] != '\n')
-				printf("%c", line[i]);
-			else
+			if (line[i] == '\n')
 				printfc(RED, 1, "$");
+			else if (isspace(line[i]))
+				printf(" ");
+			else
+				printf("%c", line[i]);
 		} else {
 			printf("%-*c", COLCOUNT-i, ' ');
 			break;
@@ -45,10 +49,12 @@ static short printline_row(const char* line, short isEOF){
 			printfc(line[i]=='\n' ? RED : CLEAR, 0, "%.*c%02X", i>0, ' ', line[i]);
 		else {
 			printf("%-*c", COLCOUNT-i, ' ');
+			printf("\n");
 			return 0;
 		}
 	}
 
+	printf("\n");
 	return 1;
 }
 
@@ -63,7 +69,6 @@ int TestOneGNL(int fd){
 			line += COLCOUNT;
 	else
 		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
-	printf("\n");
 
 	return err;
 }
