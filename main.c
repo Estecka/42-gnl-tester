@@ -27,6 +27,7 @@ int	get_next_line(int, char**);
 static short printline_row(const char* line, short isEOF){
 	char lastChar = 0;
 	(void)isEOF;
+	int i;
 
 	if (!line){
 		printfc(RED, 1, "%-*.*s", COLCOUNT, COLCOUNT, NULL);
@@ -34,7 +35,7 @@ static short printline_row(const char* line, short isEOF){
 		return 0;
 	}
 
-	for(int i=0; i<COLCOUNT; i++){
+	for(i=0; i<COLCOUNT; i++){
 		if (line[i]){
 			lastChar = line[i];
 			if (line[i] == '\n')
@@ -49,7 +50,7 @@ static short printline_row(const char* line, short isEOF){
 		}
 	}
 
-	for (int i=0; i<COLCOUNT; i++){
+	for (i=0; i<COLCOUNT; i++){
 		if (line[i])
 			printfc(line[i]=='\n' ? RED : CLEAR, 0, "%.*c%02X", i>0, ' ', line[i]);
 		else {
@@ -60,7 +61,7 @@ static short printline_row(const char* line, short isEOF){
 	}
 
 	printf("\n");
-	return 1;
+	return line[i] != 0;
 }
 
 int TestOneGNL(int fd){
@@ -69,9 +70,12 @@ int TestOneGNL(int fd){
 
 	err = get_next_line(fd, &line);
 
+	printf("|");
 	if (-1 < err)
-		while (printline_row(line, err == 0))
+		while (printline_row(line, err == 0)){
+			printf(" ");
 			line += COLCOUNT;
+		}
 	else
 		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
 
