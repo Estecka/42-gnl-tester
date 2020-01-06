@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/03 16:29:56 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/06 13:53:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,19 @@ int TestOneGNL(int fd){
 	int err;
 
 	err = get_next_line(fd, &line);
+	char* cursor = line;
 
 	printf("|");
 	if (-1 < err)
-		while (printline_row(line, err == 0)){
+		while (printline_row(cursor, err == 0)){
 			printf(" ");
-			line += COLCOUNT;
+			cursor += COLCOUNT;
 		}
 	else
 		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
+
+	if (line)
+		free(line);
 
 	return err;
 }
