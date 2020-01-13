@@ -2,7 +2,7 @@ SRCS = $(wildcard *.c ../*.c */*.c)
 OBJS = ${SRCS:.c=.o}
 
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -D BUFFER_SIZE=32
 
 NAME = test.out
 
@@ -11,18 +11,18 @@ TESTARGS = "samples/Mili - Colorful [Original artist H△G].srt"
 ${NAME}: ${OBJS}
 	gcc ${OBJS} -o ${NAME}
 
-autorun: fclean ${NAME}
+autorun: re
 	./${NAME} ${TESTARGS}
 
-all: ${name}
+all: ${NAME}
 
 clean:
 	rm -f *.o ../*.o */*.o
 	rm -f *.gch ../*.gch */*.gch
 
 fclean: clean
-	rm -f ${name}
+	rm -f ${NAME}
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re autorun
