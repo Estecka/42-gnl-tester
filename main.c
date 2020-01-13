@@ -6,20 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/13 13:01:26 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/13 14:12:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <ctype.h>
-
-#include "logutil/logutil.h"
-int	get_next_line(int, char**);
-
-#define COLCOUNT 42
+#include "testutil.h"
 
 /*
 ** Prints up to COLCOUNT characters from the given string.
@@ -27,9 +18,8 @@ int	get_next_line(int, char**);
 ** 	false The string was fully printed.
 ** 	true  The string was partially printed.
 */
-static short printline_row(const char* line, short isEOF){
+short printline_row(const char* line){
 	char lastChar = 0;
-	(void)isEOF;
 	int i;
 
 	if (!line){
@@ -69,41 +59,10 @@ static short printline_row(const char* line, short isEOF){
 	return line[i] != 0;
 }
 
-/*
-** Calls GNL once on the given file.
-** @return The return vlue of GNL.
-*/
-int TestOneGNL(int fd){
-	char* line = NULL;
-	int err;
-
-	err = get_next_line(fd, &line);
-	char* cursor = line;
-
-	printf("|");
-	if (-1 < err)
-		while (printline_row(cursor, err == 0)){
-			printf(" ");
-			cursor += COLCOUNT;
-		}
-	else
-		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
-
-	if (line)
-		free(line);
-
-	return err;
-}
 
 int	main(int argc, char **args){
-	int fd = 0;
-
-	if (argc > 1)
-		fd = open(args[1], O_RDONLY);
-	if (fd < 0){
-		printfc(YELLOW, 1, "Error opening file: %#x\n", errno);
-		return errno;
-	}
-
-	while(0 < TestOneGNL(fd));
+	if (argc <= 1)
+		return TestOneFile(NULL);
+	if (argc == 2)
+		return TestOneFile(args[1]);
 }
