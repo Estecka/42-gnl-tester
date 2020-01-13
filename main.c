@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/13 13:01:26 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/13 16:12:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int TestOneGNL(int fd){
 			cursor += COLCOUNT;
 		}
 	else
-		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
+		printfc(MAGENTA, 1, "Returned %d\n", err);
 
 	if (line)
 		free(line);
@@ -98,10 +98,17 @@ int TestOneGNL(int fd){
 int	main(int argc, char **args){
 	int fd = 0;
 
+	errno = 0;
 	if (argc > 1)
 		fd = open(args[1], O_RDONLY);
-	if (fd < 0){
-		printfc(YELLOW, 1, "Error opening file: %#x\n", errno);
+	if (errno == 2){
+		errno = 0;
+		fd = atoi(args[1]);
+		if (errno == 22)
+			errno = 2;
+	}
+	if (errno){
+		printfc(YELLOW, 1, "Error opening file: errno %#d\n", errno);
 		return errno;
 	}
 
