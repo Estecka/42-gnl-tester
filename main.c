@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/06 13:53:55 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/13 13:01:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	get_next_line(int, char**);
 #define COLCOUNT 42
 
 /*
-* Returns false if the end of line was reached.
+** Prints up to COLCOUNT characters from the given string.
+** @return
+** 	false The string was fully printed.
+** 	true  The string was partially printed.
 */
 static short printline_row(const char* line, short isEOF){
 	char lastChar = 0;
@@ -35,6 +38,7 @@ static short printline_row(const char* line, short isEOF){
 		return 0;
 	}
 
+	// Prints the characters
 	for(i=0; i<COLCOUNT; i++){
 		if (line[i]){
 			lastChar = line[i];
@@ -50,6 +54,7 @@ static short printline_row(const char* line, short isEOF){
 		}
 	}
 
+	// Prints their hex values
 	for (i=0; i<COLCOUNT; i++){
 		if (line[i])
 			printfc(line[i]=='\n' ? RED : CLEAR, 0, "%.*c%02X", i>0, ' ', line[i]);
@@ -64,6 +69,10 @@ static short printline_row(const char* line, short isEOF){
 	return line[i] != 0;
 }
 
+/*
+** Calls GNL once on the given file.
+** @return The return vlue of GNL.
+*/
 int TestOneGNL(int fd){
 	char* line = NULL;
 	int err;
@@ -97,5 +106,4 @@ int	main(int argc, char **args){
 	}
 
 	while(0 < TestOneGNL(fd));
-
 }
