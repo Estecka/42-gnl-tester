@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/13 14:12:45 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/14 12:00:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,18 @@ short printline_row(const char* line){
 	return line[i] != 0;
 }
 
-
 int	main(int argc, char **args){
-	if (argc <= 1)
-		return TestOneFile(NULL);
-	if (argc == 2)
-		return TestOneFile(args[1]);
+	if (argc <= 1) {
+		TestOneFd(0);
+		return 0;
+	}
+	else if (argc == 2) {
+		TestOneArg(args[1]);
+		if (errno)
+			printfc(YELLOW, 1, "Error opening \'%s\' : %#d\n", args[1], errno);
+		else
+			return 0;
+	}
+	else {
+	}
 }

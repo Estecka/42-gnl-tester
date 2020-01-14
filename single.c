@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 13:37:03 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/13 14:16:44 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/14 12:11:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int TestOneGNL(int fd){
 			cursor += COLCOUNT;
 		}
 	else
-		printfc(MAGENTA, 1, "Unexpected return value: %d\n", err);
+		printfc(MAGENTA, 1, "Returned: %d\n", err);
 
 	if (line)
 		free(line);
@@ -39,20 +39,52 @@ static int TestOneGNL(int fd){
 }
 
 /*
+** Runs GNL on an arbitrary file descriptor until the end.
+** @param int fd The file descriptor to read from.
+*/
+inline void TestOneFd(int fd) {
+	while (0 < TestOneGNL(fd));
+
+	if (errno == 9)
+		errno = 0;
+}
+
+/*
 ** Runs GNL on a single file until the end.
-** @param char* path The path to the file, or NULL to test the standard entry.
+** @param char* path The path to the file.
 ** @return 0 if the test was performed throughout. An error code if the file could not be opened.
 */
 int TestOneFile(char* path){
-	int fd = 0;
-	if (path)
-		fd = open(path, O_RDONLY);
-	if (fd < 0){
-		printfc(YELLOW, 1, "Error opening file: %#x\n", errno);
+	int fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
 		return errno;
+
+	TestOneFd(fd);
+	return 0;
+}
+
+/*
+** Determines whether the argument is a file descriptor or a file path, and tests GNL on it.
+** @param char** arg A file path, or decimal representation of an arbitrary file descriptor.
+** @return 0 if the test was performed throughout, an error code otherwise;
+*/
+int	TestOneArg(char* arg){
+	errno = 0;
+	TestOneFile(arg);
+
+	if (errno == 2){
+		int fd;
+		errno = 0;
+		fd = atoi(arg);
+		if (errno == 22)
+			errno = 2;
+		else {
+			TestOneFd(fd);
+			return 0;
+		}
 	}
 
-	while(0 < TestOneGNL(fd));
-
-	return 0;
+	return errno;
 }

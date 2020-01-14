@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 13:32:57 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/13 14:13:52 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/14 11:57:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@
 
 short printline_row(const char* line);
 
+void TestOneFd(int fd);
 int TestOneFile(char* path);
+int	TestOneArg(char* arg);
 int TestWovenFiles(int filecount, char** pathes);
