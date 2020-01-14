@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/30 14:54:44 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/14 12:00:39 by abaur            ###   ########.fr       */
+/*   Updated: 2020/01/14 14:00:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,10 @@ int	main(int argc, char **args){
 			return 0;
 	}
 	else {
+		int i = TestWovenArgs(argc-1, args+1);
+		if (errno) {
+			printfc(YELLOW, 1, "Error opening \'%s\' : %#d\n", args[i+1], errno);
+			return errno;
+		}
 	}
 }

@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_util.h                                        :+:      :+:    :+:   */
+/*   weaver.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/13 13:32:57 by abaur             #+#    #+#             */
-/*   Updated: 2020/01/14 12:27:13 by abaur            ###   ########.fr       */
+/*   Created: 2020/01/14 12:19:26 by abaur             #+#    #+#             */
+/*   Updated: 2020/01/14 12:28:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <ctype.h>
-
-#include "logutil/logutil.h"
-#include "../get_next_line.h"
-
 /*
-** The width of the display
+** Run GNL successively on every files until all end of files are reached.
+** @pram int argc The length of args;
+** @param char** args a list of file pathes or file descriptor to test.
+** @return
+** 	- 0 if the tests were performed throughout.
+** 	- An index from args, if a a file could not be opened.
 */
-#define COLCOUNT 42
-
-short printline_row(const char* line);
-
-void TestOneFd(int fd);
-int TestOneFile(char* path);
-int	TestOneArg(char* arg);
-int TestWovenArgs(int argc, char** args);
+int TestWovenArgs(int argc, char** args){
+}
