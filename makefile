@@ -1,7 +1,7 @@
 SRCS = $(wildcard *.c ../*.c */*.c)
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -D BUFFER_SIZE=32
 
 NAME = test.out
@@ -9,7 +9,7 @@ NAME = test.out
 TESTARGS = "samples/Mili - Colorful [Original artist H△G].srt"
 
 ${NAME}: ${OBJS}
-	gcc ${OBJS} -o ${NAME}
+	${CC} ${OBJS} -o ${NAME}
 
 autorun: re
 	./${NAME} ${TESTARGS}

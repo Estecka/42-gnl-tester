@@ -56,9 +56,18 @@ static short printline_row(const char* line, short isEOF){
 
 	// Prints their hex values
 	for (i=0; i<COLCOUNT; i++){
-		if (line[i])
-			printfc(line[i]=='\n' ? RED : CLEAR, 0, "%.*c%02X", i>0, ' ', line[i]);
-		else {
+		int colour;
+		switch (line[i])
+		{
+			default:   colour=CLEAR;  break;
+			case '\r': colour=YELLOW; break;
+			case '\n': colour=RED;    break;
+			case '\0': colour=GREEN;  break;
+		}
+
+		printfc(colour, 0, "%.*c%02X", i>0, ' ', line[i]);
+		if (!line[i])
+		{
 			printf("%-*c", COLCOUNT-i, ' ');
 			printf("\n");
 			return 0;
@@ -80,10 +89,10 @@ int TestOneGNL(int fd){
 	err = get_next_line(fd, &line);
 	char* cursor = line;
 
-	printf("|");
+	printf("%i|", err);
 	if (-1 < err)
 		while (printline_row(cursor, err == 0)){
-			printf(" ");
+			printf("  ");
 			cursor += COLCOUNT;
 		}
 	else
@@ -113,4 +122,5 @@ int	main(int argc, char **args){
 	}
 
 	while(0 < TestOneGNL(fd));
+	TestOneGNL(fd);
 }
